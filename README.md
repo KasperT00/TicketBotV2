@@ -1,4 +1,32 @@
-# GettingStarted
+# Instructions -
+!! NOTE !! - This bot is only designed learning and educational purposes. It is not intended to be used in any harmful way, only as a way to learn. 
+
+Locally start with "ng serve" in visual studio bash console, must have some like npm installed -> google this
+
+Available in localhost:4200
+
+1. Input Bearer token in form of "Bearer xyc...c" of course without the " marks.
+    - From kide website -> F12 in chrome -> network -> some call -> Authorization
+    - This will be stored to session storage so you will stay authorized. 
+    - HOWEVER token expires, so you should give it every time again
+
+2. input the url of the event
+
+3. Give the number of tickets
+
+4. Give the keyword
+
+5. Press Start
+
+6 IF something goes wrong, press stop, if this does not work, close bot by running CTRL + C in the cmd console
+
+if keyword is not found, it will take the first ticket or other available
+if maximum reservable amount is reached, bot will stop
+Bot will stop resercing five seconds before event starts
+
+More detailed under:
+
+# TicketBotV2
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
 

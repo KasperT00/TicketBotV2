@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "GettingStarted": {
+    "TicketBotV2": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/getting-started",
+            "outputPath": "dist/ticketbot-v2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -21,11 +21,10 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/app/bot/bot.component.css"
             ],
             "scripts": []
           },
@@ -60,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "GettingStarted:build:production"
+              "browserTarget": "TicketBotV2:build:production"
             },
             "development": {
-              "browserTarget": "GettingStarted:build:development"
+              "browserTarget": "TicketBotV2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +70,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "GettingStarted:build"
+            "browserTarget": "TicketBotV2:build"
           }
         },
         "test": {
@@ -83,11 +82,10 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/app/bot/bot.component.css"
             ],
             "scripts": []
           }

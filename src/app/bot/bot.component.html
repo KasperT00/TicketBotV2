@@ -1,0 +1,69 @@
+
+<!-- Create two divs, one for the token and event related stuff and other for ticket resevation and bot-->
+<div class="navbar">
+    <div>
+    </div>
+    <div class="logosNtext">
+        <div class="logopic">
+            <img src="assets/fishdance.gif" alt="Logo">
+        </div>
+        <h1 class="title">TicketBot V2</h1>
+        <div class="logopic">
+            <img src="assets/fishdance.gif" alt="Logo">
+        </div>
+    </div>
+    <div class="logout">
+        <button class="logoutbutton" (click)="logout()">Log Out</button>
+    </div>
+</div>
+<div class="botpage">
+    <div class="eventsearch">
+        <div class="verticalInput">
+            <label class="textlabel" for="token">User Token: {{ authorized ? 'Authorized' : 'Unauthorized' }}</label>
+            <input class="inputbox" type="text" id="token" placeholder="Bearer xyz" [(ngModel)]="token">
+            <button class="modernSubmitButton" (click)="setToken()">Set Token</button>
+        </div>
+        <div class="verticalInput">
+            <label class="textlabel" for="eventUrl">Event URL:</label>
+            <input class="inputbox" type="text" id="eventUrl" placeholder="https://kide.app/events/xyzabc123" [(ngModel)]="eventUrl">
+            <button class="modernSubmitButton" (click)="searchProduct()">Search Event</button>
+        </div>
+    </div>
+    <div>
+        <!-- Event information -->
+        <h2 class="titleText">Event Information:</h2>
+        <div class="eventInfoDiv">
+            <label class="eventInfoLabels">Event name: {{ eventName }}</label>
+            <label class="eventInfoLabels" *ngIf="eventName != ''">Start Time: {{ eventDateSalesFrom | date:'medium' }}</label>
+        </div>
+    </div>
+    <div class="reservationInfoDiv">
+        <!-- Number of tickets, keyword and buttons-->
+        <div class="reservetationDiv">
+            <div class="reservationInputs" >
+                <label class="textlabel" for="ticketAmountWanted">Number of Tickets:</label>
+                <input class="inputbox2" type="number" id="ticketAmountWanted" min="1" [(ngModel)]="ticketAmountWanted">
+            </div>
+            <div class="reservationInputs">
+                <label class="textlabel" for="keyword">Keyword:</label>
+                <input class="inputbox2" type="text" id="keyword" [(ngModel)]="keyword">
+            </div>
+        </div>
+        <div class="startStopButtons">
+            <button class="startbutton" (click)="startBot()" [disabled]="running">Start Bot</button>
+            <button class="stopbutton" (click)="stopBot()" [disabled]="!running">Stop Bot</button>
+        </div>
+    </div>
+    <div class="consoleMessages">
+        <!-- Status of the bot-->
+        <label class="statusText">Bot Status: {{ running ? 'Running' : 'Stopped' }}</label>
+        <label class="statusText">{{ botStatus }}</label>
+    </div>
+    <div class="consoleMessages">
+        <!-- Console messages-->
+        <h2>Console Output:</h2>
+        <label class="consoleInputText">{{ consoleOutput != "" ? consoleOutput : "Console message will appear here :)"}}</label>
+    </div>
+</div>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,21 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { BotComponent } from './bot.component';
+
+describe('BotComponent', () => {
+  let component: BotComponent;
+  let fixture: ComponentFixture<BotComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [BotComponent]
+    });
+    fixture = TestBed.createComponent(BotComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
