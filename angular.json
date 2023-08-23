@@ -13,7 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ticketbot-v2",
+            "baseHref": "/TicketBotV2/",
+            "outputPath": "dist/TicketBotV2/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
