@@ -92,10 +92,15 @@ export class BotComponent {
     var eventDateAsTime = this.eventDateSalesFrom.getTime();
     var currentTime = new Date();
     while (this.running && currentTime.getTime() < (eventDateAsTime- 5000)) {
-      //console.log("Waiting for sales to start...");
-      this.consoleOutput = 'Waiting for sales to start...';
+      var diff = eventDateAsTime - currentTime.getTime();
+      var diffInHours = Math.floor(diff / 1000 / 60 / 60);
+      diff -= diffInHours * 1000 * 60 * 60;
+      var diffInMinutes = Math.floor(diff / 1000 / 60);
+      diff -= diffInMinutes * 1000 * 60;
+      var diffInSeconds = Math.floor(diff / 1000);
+      this.consoleOutput = "Waiting for sales to start in: "+diffInHours+" hours, "+diffInMinutes+" minutes, "+diffInSeconds+" seconds";
+      
       await this.sleep(2000);
-      console.log("Waiting for sales to start...");
       currentTime = new Date();
     }
 
@@ -105,12 +110,11 @@ export class BotComponent {
 
     var data = await this.fetchEventData();
     // First fetch event data until the variants are available, sleep 10 ms between each fetch
-    console.log(data);
-    console.log(data.model.variants.length);
     while (this.running && data.model.variants.length == 0 ) {
-      data = await this.fetchEventData();
-      console.log("Fetching event data...");
       await this.sleep(10);
+      data = await this.fetchEventData();
+      this.consoleOutput = 'Starting to fetch event data before it starts...';
+      console.log("Fetching event data...");
     }
 
     // search for the variant with the keyword
@@ -119,7 +123,7 @@ export class BotComponent {
 
     if(this.running && this.keyword != '') {
       for(var i = 0; i < data.model.variants.length; i++) {
-        var variantName = data.model.variants[i].name.lowercase();
+        var variantName = data.model.variants[i].name.toLowerCase();
         var availability = data.model.variants[i].availability;
         if(variantName.includes(this.keyword.toLowerCase()) && availability > 0) {
           variantInventoryId = data.model.variants[i].inventoryId;
@@ -146,7 +150,7 @@ export class BotComponent {
           break;
         }
 
-        this.consoleOutput = 'Reserving tickets for found variant with keyword...';
+        this.consoleOutput = 'Reserving tickets base on keyword...';
         const payload = {
           toCreate: [
             {
@@ -218,7 +222,6 @@ export class BotComponent {
         };
         try{
           const reservationData = await this.ticketBotService.reserveTickets(payload, authHeaders);
-          console.log(reservationData);
           if(reservationData.status == 200) {
             this.ticketAmountReserved++;
             this.consoleOutput = 'Ticket reserved, current amount: ' + this.ticketAmountReserved;
