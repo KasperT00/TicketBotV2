@@ -84,6 +84,11 @@ export class BotComponent {
   }
 
   async startBot(): Promise<void> {
+    // if authorized and url is given, start the bot
+    if(!this.authorized || this.eventUrl == '') {
+      this.consoleOutput = 'Not authorized or event url missing !!!';
+      return;
+    }
 
     const authHeaders = { headers: { 'Authorization': sessionStorage.getItem('token') } };
     this.running = true;
