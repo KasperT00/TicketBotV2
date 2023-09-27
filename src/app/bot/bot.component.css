@@ -129,6 +129,16 @@
     font-size: 16px;
 }
 
+.selectBox {
+    width: 210px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+    font-size: 16px;
+}
+
 .textlabel {
     font-size: 18px;
     font-weight: bold;

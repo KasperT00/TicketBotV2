@@ -2,6 +2,7 @@
 <!-- Create two divs, one for the token and event related stuff and other for ticket resevation and bot-->
 <div class="navbar">
     <div>
+        <p>Version number: 2.1</p>
     </div>
     <div class="logosNtext">
         <div class="logopic">
@@ -47,6 +48,17 @@
             <div class="reservationInputs">
                 <label class="textlabel" for="keyword">Keyword:</label>
                 <input class="inputbox2" type="text" id="keyword" [(ngModel)]="keyword">
+            </div>
+            <div class="reservationInputs">
+                <label class="textlabel" for="andOr">AND / OR </label>
+                <select class="selectBox" id="andOr" [(ngModel)]="andOr">
+                    <option value="AND" selected>AND</option>
+                    <option value="OR">OR</option>
+                </select>
+            </div>
+            <div class="reservationInputs">
+                <label class="textlabel" for="keyword2">Keyword 2: </label>
+                <input class="inputbox2" type="text" id="keyword2" [(ngModel)]="keyword2">
             </div>
         </div>
         <div class="startStopButtons">

@@ -22,6 +22,8 @@ export class BotComponent {
 
   ticketAmountWanted = 1;
   keyword: string = '';
+  keyword2: string = '';
+  andOr: string = 'AND';
   authorized = false;
   running = false;
   consoleOutput = '';
@@ -114,23 +116,39 @@ export class BotComponent {
     // after this reserve the tickets and increase the ticket amount by 1 until the wanted ticket amount is reached
 
     var data = await this.fetchEventData();
-    // First fetch event data until the variants are available, sleep 10 ms between each fetch
-    while (this.running && data.model.variants.length == 0 ) {
+    // First fetch event data until the variants are available, sleep 10 ms between each fetch. Stop after trying a minute
+    var maximumWait = 6000;
+    while (this.running && data.model.variants.length == 0 && maximumWait > 0) {
+      maximumWait--;
       await this.sleep(10);
       data = await this.fetchEventData();
       this.consoleOutput = 'Starting to fetch event data before it starts...';
       console.log("Fetching event data...");
     }
 
+    if(data.model.variants.length == 0) {
+      this.consoleOutput = 'No variants found, stopping bot after a minute...';
+      this.running = false;
+      this.botStatus = 'Bot stopped';
+      return;
+    }
+
     // search for the variant with the keyword
     var variantInventoryId = 0;
     var chosenVariant = 0;
 
-    if(this.running && this.keyword != '') {
+    if(this.running && (this.keyword != '' || this.keyword2 != '')) {
       for(var i = 0; i < data.model.variants.length; i++) {
         var variantName = data.model.variants[i].name.toLowerCase();
         var availability = data.model.variants[i].availability;
-        if(variantName.includes(this.keyword.toLowerCase()) && availability > 0) {
+        if(this.andOr == 'AND') {
+          if(variantName.includes(this.keyword.toLowerCase()) && variantName.includes(this.keyword2.toLowerCase()) && availability > 0) {
+            variantInventoryId = data.model.variants[i].inventoryId;
+            chosenVariant = i;
+            break;
+          }
+        }
+        else if((variantName.includes(this.keyword.toLowerCase()) || variantName.includes(this.keyword2.toLowerCase())) && availability > 0) {
           variantInventoryId = data.model.variants[i].inventoryId;
           chosenVariant = i;
           break;
@@ -141,8 +159,17 @@ export class BotComponent {
     // Now that the variants are available, start reserving tickets
     // If variant with the keyword is found, reserve it, otherwise reserve the first variant
     // If the wanted ticket amount is reached, stop the bot
+    // Run this maximum of 50 times
+    var counter = 50;
     var counterToTryOneTicket = 0;
-    while (this.running && this.ticketAmountReserved < this.ticketAmountWanted ) {
+    while (this.running && this.ticketAmountReserved < this.ticketAmountWanted && counter > 0) {
+      counter--;
+      if(counter == 0) {
+        this.consoleOutput = 'Maximum amount of tries reached, stopping bot...';
+        this.running = false;
+        this.botStatus = 'Bot stopped';
+        break;
+      }
       console.log("Reserving tickets...");
       this.consoleOutput = 'Reserving tickets...';
       // Now we either have a variant with the keyword or not
