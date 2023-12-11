@@ -92,7 +92,7 @@ export class BotComponent {
       return;
     }
 
-    const authHeaders = { headers: { 'Authorization': sessionStorage.getItem('token') } };
+    const authHeaders = { headers: { 'Authorization': sessionStorage.getItem('token'), 'x-requested-token-28': '' } };
     this.running = true;
     this.botStatus = 'Bot is running...';
 
@@ -181,6 +181,10 @@ export class BotComponent {
           this.botStatus = 'Bot stopped';
           break;
         }
+        const requestId = this.getRequestId(variantInventoryId.toString());
+
+        // _Addd the x-requested-token-28 header to the authHeaders
+        authHeaders.headers['x-requested-token-28'] = requestId;
 
         this.consoleOutput = 'Reserving tickets base on keyword...';
         const payload = {
@@ -239,6 +243,8 @@ export class BotComponent {
           this.botStatus = 'Bot stopped';
           break;
         }
+        var invId = availableInevntoryId!=0?availableInevntoryId : data.model.variants[0].inventoryId;
+        authHeaders.headers['x-requested-token-28'] = this.getRequestId(invId.toString());
 
         const payload = {
           toCreate: [
@@ -292,4 +298,18 @@ export class BotComponent {
     this.authorized = false;
   }
 
+  reverseString(str: string): string {
+    return Array.from(str).reduce((a, e) => e + a);
+  }
+
+  getRequestId(inventoryId: string): string {
+    const hash = this.reverseString(')Uuv4RGDq225/eb.utuoy//:sptth(][');
+    return btoa(
+      [...inventoryId.replace(/-/g, '')]
+        .map((char, i) =>
+          String.fromCharCode(char.charCodeAt(0) ^ hash.charCodeAt(i))
+        )
+        .join('')
+    ).substring(0, 8);
+  }
 }
