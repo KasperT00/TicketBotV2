@@ -92,7 +92,7 @@ export class BotComponent {
       return;
     }
 
-    const authHeaders = { headers: { 'Authorization': sessionStorage.getItem('token'), 'x-requested-token-28': '' } };
+    const authHeaders = { headers: { 'Authorization': sessionStorage.getItem('token'), 'X-Requested-Token-C9': '' } };
     this.running = true;
     this.botStatus = 'Bot is running...';
 
@@ -184,7 +184,7 @@ export class BotComponent {
         const requestId = this.getRequestId(variantInventoryId.toString());
 
         // _Addd the x-requested-token-28 header to the authHeaders
-        authHeaders.headers['x-requested-token-28'] = requestId;
+        authHeaders.headers['X-Requested-Token-C9'] = requestId;
 
         this.consoleOutput = 'Reserving tickets base on keyword...';
         const payload = {
@@ -244,7 +244,7 @@ export class BotComponent {
           break;
         }
         var invId = availableInevntoryId!=0?availableInevntoryId : data.model.variants[0].inventoryId;
-        authHeaders.headers['x-requested-token-28'] = this.getRequestId(invId.toString());
+        authHeaders.headers['X-Requested-Token-C9'] = this.getRequestId(invId.toString());
 
         const payload = {
           toCreate: [
@@ -303,7 +303,7 @@ export class BotComponent {
   }
 
   getRequestId(inventoryId: string): string {
-    const hash = this.reverseString(')Uuv4RGDq225/eb.utuoy//:sptth(][');
+    const hash = 'ce7a72';
     return btoa(
       [...inventoryId.replace(/-/g, '')]
         .map((char, i) =>
